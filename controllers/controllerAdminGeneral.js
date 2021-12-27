@@ -42,3 +42,58 @@ exports.addAdminCentre =  (req, res) => {
      return result
 
   };
+
+  exports.getAdminCentres=(req, res)=> {
+    return ModelAdminCentre.getAdminCentres(req,res);
+   }
+
+   exports.getAdminCentreById= (req, res)=> {
+       var id=req.params.id;
+    return ModelAdminCentre.getAdminCentreById(req,res,id);
+   }
+
+
+  exports.deleteAdminCentre= (req, res)=> {
+    var id=req.params.id;
+  return ModelAdminCentre.deleteAdminCentre(req,res,id);
+ }
+
+ exports.editAdminCentre = (req, res) => {
+  var id=req.params.id;
+  return ModelAdminCentre.editAdminCentre(req,res,id);
+ }
+
+ exports.updateAdminCentre=  (req, res) =>{
+     var data=req.body;
+     return ModelAdminCentre.updateAdminCentre(req,res,data);
+ }
+
+
+  exports.getCategories= (req, res)=> {
+  return ModelCategorie.getCategories(req,res);
+ }
+
+  exports.getCategorieById= (req, res) =>{
+     var id=req.params.id;
+  return ModelCategorie.getCategorieById(req,res,id);
+ }
+
+  exports.addCategorie= (req, res)=> {
+     var data=req.body;
+  return ModelCategorie.addCategorie(req,res,data);
+ }
+
+  exports.deleteCategorie= (req, res)=> {
+    var id=req.body.id;
+  return ModelCategorie.deleteCategorie(req,res,id);
+ }
+
+  exports.editCategorie= (req, res) =>{
+  var id=req.params.id;
+  return ModelCategorie.editCategorie(req,res,id);
+ }
+
+  exports.updateCategorie= (req, res)=> {
+     var data=req.body;
+     return ModelCategorie.updateCategorie(req,res,data);
+ }

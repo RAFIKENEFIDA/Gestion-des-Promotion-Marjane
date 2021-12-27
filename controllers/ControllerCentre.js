@@ -16,7 +16,7 @@ module.exports= {
     },
 
     deleteCentre:  function (req, res) {
-       var id=req.params.id;
+       var id=req.body.id;
      return ModelCentre.deleteCentre(req,res,id);
     },
 

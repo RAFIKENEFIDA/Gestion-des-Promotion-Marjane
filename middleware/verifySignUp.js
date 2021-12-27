@@ -1,57 +1,12 @@
 var db=require('../database');
-var adminGeneralModel=require('../models/ModelAdminGeneral')
+var adminCentreModel=require('../models/ModelAdminCentre');
+var responsablerayonModel=require('../models/ModelResponsablerayon')
 
 
 
-checkDuplicateUsernameOrEmail = (req, res, next) => {
-  // Username
-  User.findOne({
-    where: {
-      username: req.body.username
-    }
-  }).then(user => {
-    if (user) {
-      res.status(400).send({
-        message: "Failed! Username is already in use!"
-      });
-      return;
-    }
-
-    // Email
-    User.findOne({
-      where: {
-        email: req.body.email
-      }
-    }).then(user => {
-      if (user) {
-        res.status(400).send({
-          message: "Failed! Email is already in use!"
-        });
-        return;
-      }
-
-      next();
-    });
-  });
-};
-
-checkRolesExisted = (req, res, next) => {
-  if (req.body.roles) {
-    for (let i = 0; i < req.body.roles.length; i++) {
-      if (!ROLES.includes(req.body.roles[i])) {
-        res.status(400).send({
-          message: "Failed! Role does not exist = " + req.body.roles[i]
-        });
-        return;
-      }
-    }
-  }
-  
-  next();
-};
 checkComptAdminCentreExist=async(req, res, next)=>{
 
-    var data= await adminGeneralModel.getAdminCentreByEmail(req, res);
+    var data= await adminCentreModel.getAdminCentreByEmail(req, res);
      console.log(data);
     if(data.length>0) {
      
@@ -64,10 +19,26 @@ checkComptAdminCentreExist=async(req, res, next)=>{
     }  
 }
 
+
+checkComptResponsableRayonExist=async(req, res, next)=>{
+
+  var data= await responsablerayonModel.getResponsablesrayonByEmail(req, res);
+   console.log(data);
+  if(data.length>0) {
+   
+       res.status(400).send({
+      message: "Failed! email is already in use!"
+    });
+  }  else{
+    next();
+
+  }  
+}
+
 const verifySignUp = {
-  checkDuplicateUsernameOrEmail: checkDuplicateUsernameOrEmail,
-  checkRolesExisted: checkRolesExisted,
-  checkComptAdminCentreExist: checkComptAdminCentreExist
+ 
+  checkComptAdminCentreExist: checkComptAdminCentreExist,
+  checkComptResponsableRayonExist: checkComptResponsableRayonExist
 
 };
 

@@ -19,7 +19,7 @@ module.exports={
     },
     
     addCentre:function(req,res,data){
-        var sql=`INSERT INTO centre ( nom, ville) VALUES ('${data.nom}','${data.ville}')`;
+        var sql=`INSERT INTO centre (nom,ville) VALUES ('${data.nom}','${data.ville}')`;
         db.query(sql, function (err, data, fields) {
             if (err) throw err;
           return  res.json({ message: "centre est bien ajouter" });
@@ -43,7 +43,6 @@ module.exports={
     },
 
     updateCentre:function(req,res,data){
-        // res.json({data:data})
         var sql=`UPDATE  centre SET nom='${data.nom}',ville='${data.ville}'  WHERE id='${data.id}'`;
         db.query(sql, function (err, data, fields) {
             if (err) throw err;
