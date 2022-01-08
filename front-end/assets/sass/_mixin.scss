@@ -1,0 +1,26 @@
+@mixin style-button-form{
+    padding:10px;
+    font-size:18px;
+    height:60px;
+    width: 100%;
+    box-sizing: border-box;
+    color: #fff;
+    background-color: #0b3787;
+    padding: 15px;
+    border: 0;
+    border-radius: 5px;
+    cursor: pointer;
+    transition:1000ms ease;
+  }
+
+  @mixin style-input-form {
+
+      padding:10px 10px 10px 20px;
+      box-sizing: border-box;
+      border: 1.5px solid $color-border-input;
+      height:60px;
+      width: 100%;
+      &:focus {
+          border-color: $color-button-principale;
+        }
+  }
