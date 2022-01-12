@@ -5,6 +5,24 @@ var authModel=require('../models/ModelAuth');
 var jwt = require("jsonwebtoken");
 var bcrypt = require("bcrypt");
 
+exports.checkIfAuth=(req,res)=>{
+
+  try{
+    res.clearCookie('jwt');
+    res.send({
+      message: "logout successefly"
+    });
+  }
+  catch(err){
+    console.log(err)
+
+    res.status(500).send({
+      message: err
+    });
+
+  }
+};
+
 exports.signup = (req, res) => {
   // Save User to Database
    var data=req.body;
@@ -60,7 +78,6 @@ exports.signinAdminGeneral = async (req, res) => {
 
   }
 
- 
 
 };
 exports.signinAdminCentre = async (req, res) => {

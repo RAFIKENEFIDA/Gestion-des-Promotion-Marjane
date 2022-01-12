@@ -34,7 +34,7 @@ promise:  (query) => {
     });
 },
     getAdminCentres:async function(req,res){
-        var sql=`SELECT * FROM admincentre,centre WHERE admincentre.idcenter=centre.id`;
+        var sql=`SELECT admincentre.id as id ,admincentre.nom as nom,admincentre.prenom as prenom,admincentre.email as email,centre.ville as ville   FROM admincentre,centre WHERE admincentre.idcenter=centre.id`;
         var data= await  this.promise(sql);
 
         res.send({ data: data });

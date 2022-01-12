@@ -10,10 +10,10 @@ module.exports={
 },
 
     getResponsablesrayons:function(req,res){
-        var sql=`SELECT * FROM responsablerayon`;
+        var sql=`SELECT responsablerayon.nom as nom,responsablerayon.id as id,responsablerayon.prenom as prenom,responsablerayon.email as email,categorie.nom as categorie   FROM responsablerayon,categorie  WHERE responsablerayon.idcategorie =categorie.id   AND idAdminCentre ='${req.body.idAdminCentre}'`;
         db.query(sql, function (err, data, fields) {
             if (err) throw err;
-          return  res.json({ Dataresponsablerayon: data });
+          return  res.json({ responsableRayons: data });
         });
     },
 
@@ -27,7 +27,7 @@ module.exports={
     },
    
     addResponsablerayon:async function(req,res,data) {
-        var sql=`INSERT INTO responsablerayon (nom,prenom,email,password,idcategorie,role) VALUES ('${data.nom}','${data.prenom}','${data.email}','${data.password}','${data.idcategorie}',"responsableRayon")`;
+        var sql=`INSERT INTO responsablerayon (nom,prenom,email,password,idcategorie,role,idAdminCentre ) VALUES ('${data.nom}','${data.prenom}','${data.email}','${data.password}','${data.idcategorie}',"responsableRayon",'${data.idAdminCentre}')`;
         var data= await  this.promise(sql);
         res.send({ message: "responsable rayon was registered successfully!" });
         return data;

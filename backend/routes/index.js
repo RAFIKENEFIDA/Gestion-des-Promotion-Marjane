@@ -8,6 +8,7 @@ var ControllerPromotion=require('../controllers/ControllerPromotion');
 
 var ControllerAuth=require('../controllers/authController');
 const  verifySignUp  = require("../middleware/verifySignUp");
+const  Auth  = require("../middleware/authJwt");
 
 var db=require('../database');
 // var router = express.Router();
@@ -22,55 +23,58 @@ module.exports=(app)=>{
     app.post('/authAdminCentre', ControllerAuth.signinAdminCentre);
     // authentification responsable rayon
     app.post('/authResponsableRayon', ControllerAuth.signinResponsableRayon);
+    // cheker si authentifier
+    app.post('/checkAuth', ControllerAuth.checkIfAuth);
+
 
     //routes centre
-    app.get('/view/centre', ControllerCentre.getCentres);
-    app.get('/view/centre/:id', ControllerCentre.getCentreById);
-    app.post('/view/addcentre', ControllerCentre.addCentre);
-    app.delete('/view/deletecentre', ControllerCentre.deleteCentre);
-    app.get('/view/editcentre/:id', ControllerCentre.editCentre);
-    app.put('/view/updatecentre', ControllerCentre.updateCentre);
+    app.get('/view/centre',Auth.verifyToken, ControllerCentre.getCentres);
+    app.get('/view/centre/:id',Auth.verifyToken, ControllerCentre.getCentreById);
+    app.post('/view/addcentre', Auth.verifyToken,ControllerCentre.addCentre);
+    app.delete('/view/deletecentre', Auth.verifyToken,ControllerCentre.deleteCentre);
+    app.get('/view/editcentre/:id', Auth.verifyToken,ControllerCentre.editCentre);
+    app.put('/view/updatecentre',Auth.verifyToken, ControllerCentre.updateCentre);
 
     //routes admin centre
-    app.get('/view/admincentre',ControllerAdminCentre.getAdminCentres);
-    app.get('/view/admincentre/:id',ControllerAdminCentre.getAdminCentreById);
-    app.post('/view/addadmincentre',verifySignUp.checkComptAdminCentreExist,ControllerAdminCentre.addAdminCentre);
-    app.delete('/view/deleteadmincentre',ControllerAdminCentre.deleteAdminCentre);
-    app.get('/view/editadmincentre/:id',ControllerAdminCentre.editAdminCentre);
-    app.put('/view/edit/updateadmincentre',ControllerAdminCentre.updateAdminCentre);
+    app.get('/view/admincentre',Auth.verifyToken,ControllerAdminCentre.getAdminCentres);
+    app.get('/view/admincentre/:id',Auth.verifyToken,ControllerAdminCentre.getAdminCentreById);
+    app.post('/view/addadmincentre',Auth.verifyToken,verifySignUp.checkComptAdminCentreExist,ControllerAdminCentre.addAdminCentre);
+    app.delete('/view/deleteadmincentre',Auth.verifyToken,ControllerAdminCentre.deleteAdminCentre);
+    app.get('/view/editadmincentre/:id',Auth.verifyToken,ControllerAdminCentre.editAdminCentre);
+    app.put('/view/edit/updateadmincentre',Auth.verifyToken,ControllerAdminCentre.updateAdminCentre);
 
      //routes Responsablerayon
-     app.get('/view/responsablerayon',ControllerResponsablerayon.getResponsablesrayons);
-     app.get('/view/responsablerayon/:id',ControllerResponsablerayon.getResponsablerayonById);
-     app.post('/view/addresponsablerayon',verifySignUp.checkComptResponsableRayonExist,ControllerResponsablerayon.addResponsablerayon);
-     app.delete('/view/responsablerayon',ControllerResponsablerayon.deleteResponsablerayon);
-     app.get('/view/responsablerayon/:id',ControllerResponsablerayon.editResponsablerayon);
-     app.put('/view/edit/responsablerayon',ControllerResponsablerayon.updateResponsablerayon);
+     app.post('/view/responsablesrayon',Auth.verifyToken,ControllerResponsablerayon.getResponsablesrayons);
+     app.get('/view/responsablerayon/:id',Auth.verifyToken,ControllerResponsablerayon.getResponsablerayonById);
+     app.post('/view/addresponsablerayon',Auth.verifyToken,verifySignUp.checkComptResponsableRayonExist,ControllerResponsablerayon.addResponsablerayon);
+     app.delete('/view/responsablerayon',Auth.verifyToken,ControllerResponsablerayon.deleteResponsablerayon);
+     app.get('/view/responsablerayon/:id',Auth.verifyToken,ControllerResponsablerayon.editResponsablerayon);
+     app.put('/view/edit/responsablerayon',Auth.verifyToken,ControllerResponsablerayon.updateResponsablerayon);
 
     //routes categorie
-    app.get('/view/categorie',ControllerCategorie.getCategories);
-    app.get('/view/categorie/:id',ControllerCategorie.getCategorieById);
-    app.post('/view/addcategorie',ControllerCategorie.addCategorie);
-    app.delete('/view/deletecategorie',ControllerCategorie.deleteCategorie);
-    app.get('/view/editcategorie/:id',ControllerCategorie.editCategorie);
-    app.put('/view/updatecategorie',ControllerCategorie.updateCategorie);
+    app.get('/view/categorie',Auth.verifyToken,ControllerCategorie.getCategories);
+    app.get('/view/categorie/:id',Auth.verifyToken,ControllerCategorie.getCategorieById);
+    app.post('/view/addcategorie',Auth.verifyToken,ControllerCategorie.addCategorie);
+    app.delete('/view/deletecategorie',Auth.verifyToken,ControllerCategorie.deleteCategorie);
+    app.get('/view/editcategorie/:id',Auth.verifyToken,ControllerCategorie.editCategorie);
+    app.put('/view/updatecategorie',Auth.verifyToken,ControllerCategorie.updateCategorie);
 
     //routes produit
-    app.get('/view/produit',ControllerProduit.getProduits);
-    app.get('/view/produit/:id',ControllerProduit.getProduitById);
-    app.post('/view/addproduit',ControllerProduit.addProduit);
-    app.delete('/view/deleteproduit',ControllerProduit.deleteProduit);
-    app.get('/view/editproduit/:id',ControllerProduit.editProduit);
-    app.put('/view/updateproduit',ControllerProduit.updateProduit);
+    app.get('/view/produit',Auth.verifyToken,ControllerProduit.getProduits);
+    app.get('/view/produit/:id',Auth.verifyToken,ControllerProduit.getProduitById);
+    app.post('/view/addproduit',Auth.verifyToken,ControllerProduit.addProduit);
+    app.delete('/view/deleteproduit',Auth.verifyToken,ControllerProduit.deleteProduit);
+    app.get('/view/editproduit/:id',Auth.verifyToken,ControllerProduit.editProduit);
+    app.put('/view/updateproduit',Auth.verifyToken,ControllerProduit.updateProduit);
 
     //routes promotion
-    app.get('/view/promotion',ControllerPromotion.getPromotions);
-    app.get('/view/promotion/:id',ControllerPromotion.getPromotionById);
-    app.post('/view/addpromotion',ControllerPromotion.addPromotion);
-    app.delete('/view/deletepromotion',ControllerPromotion.deletePromotion);
-    app.get('/view/editpromotion/:id',ControllerPromotion.editPromotion);
-    app.put('/view/updatepromotion',ControllerPromotion.updatePromotion);
-    app.put('/view/updatestatuspromotion',ControllerPromotion.updateStatusPromotion);
+    app.get('/view/promotion',Auth.verifyToken,ControllerPromotion.getPromotions);
+    app.get('/view/promotion/:id',Auth.verifyToken,ControllerPromotion.getPromotionById);
+    app.post('/view/addpromotion',Auth.verifyToken,ControllerPromotion.addPromotion);
+    app.delete('/view/deletepromotion',Auth.verifyToken,ControllerPromotion.deletePromotion);
+    app.get('/view/editpromotion/:id',Auth.verifyToken,ControllerPromotion.editPromotion);
+    app.put('/view/updatepromotion',Auth.verifyToken,ControllerPromotion.updatePromotion);
+    app.put('/view/updatestatuspromotion',Auth.verifyToken,ControllerPromotion.updateStatusPromotion);
     
 };
 

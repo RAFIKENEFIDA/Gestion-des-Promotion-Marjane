@@ -9,6 +9,10 @@ module.exports= {
         var id=req.params.id;
      return ModelCategorie.getCategorieById(req,res,id);
     },
+    getCategorieByNom:  function (req, res,nom) {
+        
+     return ModelCategorie.getCategorieByNom(req,res,nom);
+    },
 
     addCategorie:  function (req, res) {
         var data=req.body;

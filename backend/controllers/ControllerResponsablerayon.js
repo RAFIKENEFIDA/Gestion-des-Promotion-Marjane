@@ -1,5 +1,6 @@
 var db=require('../database');
 var ModelResponsablerayon=require('../models/ModelResponsablerayon');
+var ControllerCategorie=require('../controllers/ControllerCategorie');
 const nodemailer = require('nodemailer');
 var jwt = require("jsonwebtoken");
 var bcrypt = require("bcrypt");
@@ -7,7 +8,8 @@ const config = require("../config/auth.config");
 
 module.exports= {
     getResponsablesrayons:  function (req, res) {
-     return ModelResponsablerayon.getResponsablerayon(req,res);
+      
+     return ModelResponsablerayon.getResponsablesrayons(req,res);
     },
 
     getResponsablerayonById:  function (req, res) {
@@ -15,14 +17,15 @@ module.exports= {
      return ModelResponsablerayon.getResponsablerayonById(req,res,id);
     },
 
-    addResponsablerayon:  function (req, res) {
+    addResponsablerayon: async function (req, res) {
          // Save User to Database
      var data=req.body;
      var generatPassword=Math.random().toString(36).substr(2) + req.body.prenom.split("@", 1);
      var password = bcrypt.hashSync(generatPassword, 8)
      data.password=password;
-
-     var result=  ModelResponsablerayon.addResponsablerayon(req,res,data);
+     let idcategorie= await ControllerCategorie.getCategorieByNom(req,res,data.nomCategorie)
+     data.idcategorie=idcategorie[0].id;
+     var result= await ModelResponsablerayon.addResponsablerayon(req,res,data);
      if(result){
         var nodemailer = require('nodemailer');
         var transporter = nodemailer.createTransport({

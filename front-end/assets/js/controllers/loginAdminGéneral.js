@@ -1,4 +1,4 @@
-import AdminGeneral from "./classes/AdminGeneral.js";
+import AdminGeneral from "../classes/AdminGeneral.js";
 
 const email=document.getElementById("email");
 const password=document.getElementById("password");

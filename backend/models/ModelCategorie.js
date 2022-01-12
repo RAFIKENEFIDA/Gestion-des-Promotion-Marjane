@@ -16,6 +16,12 @@ module.exports={
           return data;
     },
 
+    getCategorieByNom:async function(req,res,nom){
+        var sql=`SELECT * FROM categorie WHERE nom='${nom}'`;
+          var data= await  this.promise(sql);
+          return data;
+    },
+
     promise:  (query) => {
       return new Promise( (resolve, reject) => {
           db.query(query, function (err, result) {

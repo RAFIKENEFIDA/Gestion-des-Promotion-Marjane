@@ -1,4 +1,5 @@
 import port from "../../port.js";
+import token from "../../token.js";
 
 
 export default class AdminCentre  {
@@ -46,12 +47,14 @@ export default class AdminCentre  {
       
 
         };
+
+        
     static getAdminCentres=async() =>{
     
           try{
             const res = await fetch(port+"/view/admincentre", {
               method: "GET",
-              headers: { "Content-Type": "application/json" },
+              headers: { "Content-Type": "application/json","x-access-token":token },
             });
             let adminCentres=await res.json();
       
@@ -68,15 +71,13 @@ export default class AdminCentre  {
       };
     
           try{
-            const res = await fetch(port+"/view/deletecentre", {
+            const res = await fetch(port+"/view/deleteadmincentre", {
               method: "DELETE",
               body: JSON.stringify(data),
-              headers: { "Content-Type": "application/json" },
+              headers: { "Content-Type": "application/json","x-access-token":token },
             });
             let response=await res.json();
-    
-            console.log(response);
-            return response.data;
+                return response.data;
           } catch(error){
             console.log(error)
           }
@@ -98,7 +99,7 @@ export default class AdminCentre  {
                 const res = await fetch(port+"/view/addadmincentre", {
                   method: "POST",
                   body: JSON.stringify(data),
-                  headers: { "Content-Type": "application/json" },
+                  headers: { "Content-Type": "application/json","x-access-token":token },
                 });
                 return await res.json();
               } catch(error){

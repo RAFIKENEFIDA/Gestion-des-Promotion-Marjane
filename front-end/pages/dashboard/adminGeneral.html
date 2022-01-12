@@ -29,8 +29,7 @@
     <!-- endinject -->
     <link rel="shortcut icon" href="../../images/favicon.png" />
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.all.min.js"></script>
-    <script   src="../../assets/js/adminGeneral.js" type="module" defer></script>
-    <script   type="module"> import {deleteAdminCentre} from "../../assets/js/adminGeneral.js"; </script>
+    <script   src="../../assets/js/controllers/adminGeneral.js" type="module" defer></script>
 
   </head>
   <body style="background-color: #F5F7FF;">
@@ -117,7 +116,7 @@
                   <i class="ti-settings text-primary"></i>
                   Settings
                 </a>
-                <a class="dropdown-item">
+                <a class="dropdown-item logout" >
                   <i class="ti-power-off text-primary"></i>
                   Logout
                 </a>
@@ -140,14 +139,14 @@
         <!-- partial:partials/_sidebar.html -->
         <nav class="sidebar sidebar-offcanvas" id="sidebar">
           <ul class="nav">
-            <li class="nav-item">
+            <li class="nav-item nav-item-acceuil  ">
               <a href="" class="nav-link to-acceuil" >
                 <i class="icon-grid menu-icon"></i>
                 <span class="menu-title">Dashboard</span>
               </a>
             </li>
         
-            <li class="nav-item">
+            <li class="nav-item nav-item-promotion">
               <a
                 class="nav-link to-promotion"
                 data-toggle="collapse"
@@ -160,7 +159,7 @@
               </a>
            
             </li>
-            <li class="nav-item ">
+            <li class="nav-item nav-item-add-admin ">
               <a
                 class="nav-link to-add-admin"
                 href=""

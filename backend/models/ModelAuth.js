@@ -13,7 +13,7 @@ module.exports={
     insertAdminGeneral:function(req,res,data){
 
         var sql=`INSERT INTO admingeneral(nom, prenom, email, password) VALUES ('${data.nom}','${data.prenom}','${data.email}','${data.password}')`;
-
+        
         db.query(sql, function (err, data, fields) {
             if (err) res.status(500).send({ message: err.message });
             res.send({ message: "admin centre was registered successfully!" });

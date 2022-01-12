@@ -1,4 +1,4 @@
-import AdminCentre from "./classes/AdminCentre.js";
+import AdminCentre from "../classes/AdminCentre.js";
 
 const email=document.getElementById("email");
 const password=document.getElementById("password");

@@ -1,5 +1,5 @@
 import port from "../../port.js";
-
+import token from "../../token.js";
 
 export default class Centre  {
 
@@ -10,7 +10,9 @@ export default class Centre  {
           try{
             const res = await fetch(port+"/view/centre", {
               method: "GET",
-              headers: { "Content-Type": "application/json" },
+              headers: { 
+                "Content-Type": "application/json" ,
+              "x-access-token":token},
             });
               Centres=await res.json();
               return Centres.data;
