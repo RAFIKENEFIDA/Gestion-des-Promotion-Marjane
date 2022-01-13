@@ -1,6 +1,9 @@
 
 import route from "../route/adminCentre.js"
 import ResponsableRayon from "../classes/ResponsableRayon.js"
+import Promotion from "../classes/Promotion.js";
+import Produit from "../classes/Produit.js";
+import Categorie  from "../classes/Categorie.js";
 import token from "../../token.js"
 let dataAdminCentre;
 let idAdmin;
@@ -10,7 +13,6 @@ if(token){
 
 }
 
-
 // function for get all admins centre
 
 
@@ -19,7 +21,6 @@ window.addEventListener('DOMContentLoaded', async() => {
 
   if(!token){
     window.location.href="../auth/loginAdminCentre.html";
-
   }
 
   
@@ -36,7 +37,7 @@ window.addEventListener('DOMContentLoaded', async() => {
 
 //  load  page promotion
 
-  document.querySelector(".to-promotion").addEventListener("click",(e)=>{
+  document.querySelector(".to-promotion").addEventListener("click", async (e)=>{
     e.preventDefault();
 
 
@@ -44,6 +45,29 @@ window.addEventListener('DOMContentLoaded', async() => {
     document.querySelector(".container-content").innerHTML="";
     let content =route("promotion");
     document.querySelector(".container-content").innerHTML=content;
+    
+
+    let Allpromotions= await Promotion.getPromotions();
+
+    document.querySelector(".tbody").innerHTML=Allpromotions.map(promotion=>
+      `<tr>
+          <td>${promotion.nom}</td>
+          <td>${promotion.produit}</td>
+          <td>${promotion.categorie}</td>
+          <td>${promotion.status}</td>
+          <td>${promotion.pourcentage}</td>
+          <td>${promotion.pointfidelite}</td>
+          <td>${promotion.commentaire}</td>
+          <td>${promotion.quantite}</td>
+          <td>${promotion.datefinpromo}</td>
+          <td>
+              <a href="#" class="delete" data-type="${promotion.id}"  data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+          </td>
+      </tr>`
+        )
+
+
+
   })
 
   // load page ajoute admin
@@ -55,9 +79,6 @@ window.addEventListener('DOMContentLoaded', async() => {
     document.querySelector(".container-content").innerHTML="";
     let content =route("ajouteResponsableRayon");
     document.querySelector(".container-content").innerHTML=content;
-    // let centres=await Centre.getAllCentre();
-    // console.log(centres);
-     // Fonction qui ajoute l'admin centre
 
     document.querySelector("#button-ajoute-responsable-rayon").addEventListener("click",async()=>{
      
@@ -140,14 +161,94 @@ await  getAllResponsablesRayon();
 
   })
    // load page ajoute promotion
-   document.querySelector(".to-add-promotion").addEventListener("click",(e)=>{
+   document.querySelector(".to-add-promotion").addEventListener("click", async(e)=>{
     e.preventDefault();
 
     document.querySelector(".container-content").innerHTML="";
-    let content =route("addPromotion");
+    let content =  route("addPromotion");
     document.querySelector(".container-content").innerHTML=content;
 
+    let categories=await Categorie.getAllCategories();
+    console.log(categories);
+
+    document.getElementById("categorieProduit").innerHTML=categories.map(categorie=>
+         `
+         <option value=${categorie.nom}>${categorie.nom}</option>
+            
+         `
+    )
+
+
+    document.getElementById("categorieProduit").addEventListener("change",async()=>{
+
+      console.log("click")
+
+      let option=document.getElementById("categorieProduit").value;
+
+      let produits=await Produit.getProduitByCatgorie(option);
+
+      console.log(option)
+
+
+      document.getElementById("produit").innerHTML=produits.map(produit=>
+        `
+        <option value=${produit.nom}>${produit.nom}</option>
+           
+        `)
+    })
+
+
+     //  ajoute une promotion
+
+  document.getElementById("button-ajoute-promotion").addEventListener("click",async (e)=>{
+     
+    const nomPromotion=document.getElementById("nomPromotion");
+    const produit=document.getElementById("produit");
+    const expiration=document.getElementById("expiration");
+    const pourcentage=document.getElementById("pourcentagePromo");
+    const pointsFidilite=document.getElementById("pourcentagePointsFidilite");
+     
+    
+    const dataPromo={
+      nom: nomPromotion.value,
+      produit: produit.value,
+      pourcentage: pourcentage.value,
+      pointfidelite: pointsFidilite.value,
+      expiration: expiration.value,
+ };
+       
+    let response = await Promotion.addPromotion(dataPromo);
+    console.log(response);
+
+      if(response.error==true) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Something went wrong!',
+          footer: response.message
+        })
+      }
+
+      else {
+
+        Swal.fire({
+          position: 'centre',
+          icon: 'success',
+          title: 'Your work has been saved',
+          showConfirmButton: false,
+          timer: 2500
+        })
+
+        window.location.href = "./adminCentre.html";
+
+      }
+    console.log(response)
+          
   })
+
+  })
+
+ 
 
   // logout
 

@@ -4,18 +4,40 @@ var produit=require('../models/ModelProduit');
 var categorie =require('../models/ModelCategorie');
 
 module.exports= {
+    getPromotionsForAdminCentre:async function (req, res) {
+
+     let data= await ModelPromotion.getPromotionsForAdminCentre();
+
+   res.send({data:data})
+    },
     getPromotions: async function (req, res) {
+
         let date = new Date();
-        var month = date.getUTCMonth() + 1; //months from 1-12
-        var day = date.getUTCDate();
-        var year = date.getUTCFullYear();
-        let hours = date.getHours();
+        let month = date.getUTCMonth() + 1; 
+        let day = date.getUTCDate();
+        let year = date.getUTCFullYear();
+
+        let hours = String(date.getHours()).padStart(2, "0");
+        let minutes = String(date.getMinutes()).padStart(2, "0");
+        let seconds = String(date.getSeconds()).padStart(2, "0");
         // let minute = date.getMinutes;
-        newdate = year + "-" + month + "-" + day;
-        let data=await ModelPromotion.getPromotions(req,res);
+        newdate = day + "-" + month + "-" + year;
+        dayDate=hours + "-" + minutes + "-" + seconds;
+
+        let idcategorie=req.body.idcategorie
+        let data=await ModelPromotion.getPromotions(req,res,idcategorie);
+
         let arraydata=[];
+        console.log(data);
+        // console.log(data);
         data.forEach(element => {
-            if(element.datedebutpromo==newdate &&  hours>=8 && hours<= 12){
+            if(element.datefinpromo>=newdate )
+            {
+                console.log(element)
+                arraydata.push(element);
+            }
+            else if(element.datefinpromo==newdate &&  dayDate>element.heure){
+                console.log(element)
                 arraydata.push(element);
             }
         });
@@ -30,19 +52,74 @@ module.exports= {
     },
 
     addPromotion: async function (req, res) {
-        var data=req.body;
-        var produitt=  await produit.getProduitById(req,res,data.idproduit);
 
+        var data=req.body;
+        var produitt=  await produit.getProduitByNom(req,res,data.produit);
+        console.log(data)
+        console.log(produitt)
         var categoriee=await categorie.getCategorieById(req,res,produitt[0].idcategorie);
 
-        if((categoriee[0].nom=="multimedia" && data.pourcentage<=20) || (categoriee[0].nom!="multimedia" && data.pourcentage<=50)){
-             var point=data.pourcentage*10;
-             data.point=point;
-             return ModelPromotion.addPromotion(req,res,data);
+        let today = new Date();
 
-        }else{
-                return res.json({ message: "error" });
+        let hours = String(today.getHours()).padStart(2, "0");
+        let minutes = String(today.getMinutes()).padStart(2, "0");
+        let seconds = String(today.getSeconds()).padStart(2, "0");
+
+        let year=String(today.getFullYear());
+        let month=String(today.getMonth()+1).padStart(2, "0");
+        let day=String(today.getDate()).padStart(2, "0");
+
+        let Today=day+'-'+month+'-'+year;
+        let dateHeurs=hours+'-'+minutes+'-'+seconds;
+
+         
+        data.datedebutpromo=Today;
+        today.setDate(today.getDate() +JSON.parse(data.expiration) );
+
+         year=String(today.getFullYear());
+         month=String(today.getMonth()+1).padStart(2, "0");
+         day=String(today.getDate()).padStart(2, "0");
+
+        Today=day+'-'+month+'-'+year
+   
+        data.datefinpromo=Today;
+        data.heure=dateHeurs;
+        data.idproduit=produitt[0].id;
+
+
+        if(produitt[0].prix<50 && data.pourcentage>0 && data.pointfidelite>0 ){
+           
+         res.send({message:"le produit n'accept aucun promotion et points de fidélité",error:true});
+
         }
+        
+        else  if(categoriee[0].nom=="multimedia" && data.pourcentage>50  ) {
+
+            res.send({message:"le pourcentage de la promotion pour le produit doit ne depasse pas 50 %",error:true})
+    
+           }
+        else  if( categoriee[0].nom!="multimedia" && data.pourcentage>20 ) {
+
+            res.send({message:"le pourcentage de la promotion pour le produit doit ne depasse pas 20 %",error:true})
+    
+           }
+        else  if(categoriee[0].nom=="multimedia" && data.pointfidelite>50  || categoriee[0].nom!="multimedia" && data.pointfidelite>5 ) {
+
+            res.send({message:"les points de fidélité de la promotion pour le produit doit ne depasse pas 5 %",error:true})
+
+           }
+           else{
+             ModelPromotion.addPromotion(req,res,data);
+
+
+           }
+
+
+        
+
+
+
+    
     },
 
     deletePromotion:  function (req, res) {

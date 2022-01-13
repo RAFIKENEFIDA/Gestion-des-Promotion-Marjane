@@ -801,6 +801,16 @@ table.table .avatar {
 .container-form-dashboard .input-login span {
   color: #ec2323;
 }
+.container-form-dashboard select {
+  padding: 10px 10px 10px 20px;
+  box-sizing: border-box;
+  border: 1.5px solid #ced4da;
+  height: 60px;
+  width: 100%;
+}
+.container-form-dashboard select:focus {
+  border-color: #0b3787;
+}
 .container-form-dashboard button {
   height: 50px;
   padding: 10px;

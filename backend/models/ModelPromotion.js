@@ -5,8 +5,18 @@ var fs = require('fs');
 
 module.exports={
 
-    getPromotions:async function(req,res){
-        var sql=`SELECT * FROM promotion`;
+  getPromotionsForAdminCentre:async function(req,res){
+   
+    var sql=`SELECT  produit.nom as produit, produit.quantite as quantite,promotion.nom as nom,promotion.pourcentage as pourcentage,promotion.pointfidelite as pointfidelite,promotion.datefinpromo as datefinpromo,promotion.commentaire as commentaire,promotion.status as status,categorie.nom as categorie FROM promotion,categorie,produit  WHERE promotion.idproduit=produit.id AND produit.idcategorie=categorie.id`;
+    var data= await  this.promise(sql);
+    return data;
+
+  },
+
+    getPromotions:async function(req,res,idcategorie){
+
+
+        var sql=`SELECT  produit.nom as produit, produit.quantite as quantite,promotion.nom as nom,promotion.id as id,promotion.pourcentage as pourcentage,promotion.pointfidelite as pointfidelite,promotion.datefinpromo as datefinpromo,promotion.commentaire as commentaire,promotion.status as status,promotion.heure as heure,categorie.nom as categorie FROM promotion,categorie,produit  WHERE promotion.idproduit=produit.id AND produit.idcategorie=categorie.id AND produit.idcategorie='${idcategorie}' AND promotion.status="encore" `;
         var data= await  this.promise(sql);
         return data;
     
@@ -31,13 +41,12 @@ module.exports={
     },
     
     addPromotion:async(req,res,data)=>{
-            var sql=`INSERT INTO promotion (nom,pourcentage,pointfidelite,datedebutpromo,datefinpromo,heure,commentaire,status,idproduit) VALUES ('${data.nom}',${data.pourcentage},${data.point},'${data.datedebutpromo}','${data.datefinpromo}','${data.heure}','${data.commentaire}','${data.status}',${data.idproduit})`;
+            var sql=`INSERT INTO promotion (nom,pourcentage,pointfidelite,datedebutpromo,datefinpromo,heure,commentaire,status,idproduit,expiration) VALUES ('${data.nom}',${data.pourcentage},${data.pointfidelite},'${data.datedebutpromo}','${data.datefinpromo}','${data.heure}','aucun','encore','${data.idproduit}','${data.expiration}')`;
             db.query(sql, function (err, data, fields) {
                 if (err) throw err;
-              return  res.json({ message: "promotion est bien ajouter" });
+              return  res.json({ message: "promotion est bien ajouter",  error: false});
             });
     },
-
 
     deletePromotion:function(req,res,id){
         var sql=`DELETE  FROM promotion WHERE id='${id}'`;

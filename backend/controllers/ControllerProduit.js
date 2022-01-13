@@ -9,6 +9,10 @@ module.exports= {
         var id=req.params.id;
      return ModelProduit.getProduitById(req,res,id);
     },
+    getProduitByCatgorie:  function (req, res) {
+        var categorie=req.body.categorie;
+     return ModelProduit.getProduitByCatgorie(req,res,categorie);
+    },
 
     addProduit:  function (req, res) {
         var data=req.body;

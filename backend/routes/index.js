@@ -11,10 +11,10 @@ const  verifySignUp  = require("../middleware/verifySignUp");
 const  Auth  = require("../middleware/authJwt");
 
 var db=require('../database');
+
 // var router = express.Router();
 
 module.exports=(app)=>{
-
       // route inscription admin general
     app.post('/admingeneral/signup', ControllerAuth.signup);
     //authentication admin general
@@ -62,13 +62,15 @@ module.exports=(app)=>{
     //routes produit
     app.get('/view/produit',Auth.verifyToken,ControllerProduit.getProduits);
     app.get('/view/produit/:id',Auth.verifyToken,ControllerProduit.getProduitById);
+    app.post('/view/produit',Auth.verifyToken,ControllerProduit.getProduitByCatgorie);
     app.post('/view/addproduit',Auth.verifyToken,ControllerProduit.addProduit);
     app.delete('/view/deleteproduit',Auth.verifyToken,ControllerProduit.deleteProduit);
     app.get('/view/editproduit/:id',Auth.verifyToken,ControllerProduit.editProduit);
     app.put('/view/updateproduit',Auth.verifyToken,ControllerProduit.updateProduit);
 
     //routes promotion
-    app.get('/view/promotion',Auth.verifyToken,ControllerPromotion.getPromotions);
+    app.post('/view/promotion',Auth.verifyToken,ControllerPromotion.getPromotions);
+    app.get('/view/promotion/adminCentre',Auth.verifyToken,ControllerPromotion.getPromotionsForAdminCentre);
     app.get('/view/promotion/:id',Auth.verifyToken,ControllerPromotion.getPromotionById);
     app.post('/view/addpromotion',Auth.verifyToken,ControllerPromotion.addPromotion);
     app.delete('/view/deletepromotion',Auth.verifyToken,ControllerPromotion.deletePromotion);

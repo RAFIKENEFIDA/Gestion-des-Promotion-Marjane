@@ -36,6 +36,12 @@
     }
   }
 
+  select{
+
+     @include style-input-form();
+
+  }
+
   button{
       
     height: 50px;

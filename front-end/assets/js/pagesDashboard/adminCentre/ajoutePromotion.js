@@ -9,26 +9,64 @@ export default class ajoutePromotion  {
               <div class="label-pour-input">
                 <label for="nom">Nom de la promotion</label><span>*</span>
               </div>
-              <input type="nom" id="nom" placeholder="nom" />
+              <input type="nom" id="nomPromotion" placeholder="nom" />
               <p class="error-nom" style="color: red"></p>
             </div>
 
-         
-    
+            
+            <div class="input-login">
+            <div class="label-pour-input">
+            <label for="categorieProduit">  Categorie</label><span>*</span>
+            </div>
+             <select name="pets" id="categorieProduit">
+   
+               </select>
+            </div>  
+
 
             <div class="input-login">
             <div class="label-pour-input">
-            <label for="categorie"> choix une categorie</label><span>*</span>
+            <label for="produit">  Produit</label><span>*</span>
             </div>
-             <select name="pets" id="categorie">
-             <option value="">--Choisir une categorie-</option>
-             <option value="dog">multimedia</option>
-             <option value="cat">sport</option>
+             <select name="pets" id="produit">
+            
                </select>
             </div>  
 
             
-            <button type="click" id="button-ajoute-responsable-rayon" >Ajouter la promotion</button>
+
+            <div class="input-login">
+            <div class="label-pour-input">
+            <label for="expiration">   Date d'expiration </label><span>*</span>
+            </div>
+             <select name="pets" id="expiration">
+             <option value="">choix une date d'expiration</option>
+             <option value="7">7</option>
+             <option value="15">15</option>
+             <option value="20">20</option>
+             
+               </select>
+            </div>  
+
+            
+            <div class="input-login">
+            <div class="label-pour-input">
+              <label for="pourcentagePromo">Le pourcentage de la promotion </label><span>*</span>
+            </div>
+            <input type="number" id="pourcentagePromo" placeholder="Pourcentage en %"  max="100"  />
+            <p class="error-nom" style="color: red"></p>
+             </div>
+
+                  
+            <div class="input-login">
+            <div class="label-pour-input">
+              <label for="pourcentagePromo">Les points de fidilite </label><span>*</span>
+            </div>
+            <input type="number" id="pourcentagePointsFidilite" placeholder="Points de fidelité en %"  max="100"  />
+            <p class="error-nom" style="color: red"></p>
+             </div>
+          
+            <button type="click" id="button-ajoute-promotion" >Ajouter la promotion</button>
              
              </div>
         `;

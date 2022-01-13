@@ -5,7 +5,7 @@ module.exports={
         var sql=`SELECT * FROM categorie`;
         db.query(sql, function (err, data, fields) {
             if (err) throw err;
-          return  res.json({ categorie: data });
+            res.json({ categories: data });
         });
     },
 

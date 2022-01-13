@@ -1,1 +1,7 @@
 ==> chef de rayon a changer le status de la promo à: status1  et  le commentaire :commantaire1  action : update idpromotion:12  le: 2021-12-24  heures:17:3
+==> chef de rayon a changer le status de la promo à: valider  et  le commentaire :stoke disponible  action : update idpromotion:25  le: 2022-1-13  heures:10:51
+==> chef de rayon a changer le status de la promo à: invalider  et  le commentaire :stock indisponible  action : update idpromotion:26  le: 2022-1-13  heures:10:58
+==> chef de rayon a changer le status de la promo à: valider  et  le commentaire :stoke disponible  action : update idpromotion:27  le: 2022-1-13  heures:11:1
+==> chef de rayon a changer le status de la promo à: invalider  et  le commentaire :stoke indispoible  action : update idpromotion:25  le: 2022-1-13  heures:11:2
+==> chef de rayon a changer le status de la promo à: valider  et  le commentaire :stoke disponible  action : update idpromotion:26  le: 2022-1-13  heures:11:8
+==> chef de rayon a changer le status de la promo à: invalider  et  le commentaire :stoke indisponible  action : update idpromotion:27  le: 2022-1-13  heures:15:48

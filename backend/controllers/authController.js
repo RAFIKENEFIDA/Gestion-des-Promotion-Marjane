@@ -163,6 +163,7 @@ exports.signinResponsableRayon = async (req, res) => {
         id: data[0].id,
         username: data[0].username,
         email: data[0].email,
+        idcategorie: data[0].idcategorie,
   });
   }
 

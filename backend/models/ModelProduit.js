@@ -11,10 +11,22 @@ module.exports={
 },
 
 
-    getProduitById:async function (req,res,id){
-        var sql=`SELECT * FROM produit WHERE id='${id}'`;
+    getProduitByNom:async function (req,res,nom){
+        var sql=`SELECT * FROM produit WHERE nom='${nom}'`;
         var data= await  this.promise(sql);
         return data;
+    },
+
+    getProduitById:async function (req,res,id){
+      var sql=`SELECT * FROM produit WHERE id='${id}'`;
+      var data= await  this.promise(sql);
+      return data;
+  },
+  
+    getProduitByCatgorie:async function (req,res,categorie){
+        var sql=`SELECT produit.nom as nom,produit.quantite as quantite,produit.prix as prix,categorie.nom as categorie FROM produit,categorie WHERE categorie.id=produit.idcategorie AND categorie.nom='${categorie}'`;
+        var data= await  this.promise(sql);
+        res.send(data);
     },
 
     

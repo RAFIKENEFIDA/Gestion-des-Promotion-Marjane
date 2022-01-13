@@ -5,6 +5,7 @@ module.exports={
 
     var sql=`(SELECT * FROM responsablerayon WHERE email='${req.body.email}' )  `;
    var data= await  this.promise(sql);
+   
    return data;
 
 },

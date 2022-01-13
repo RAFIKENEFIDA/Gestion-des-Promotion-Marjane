@@ -20,8 +20,7 @@ export default class AdminGeneral  {
             const res = await fetch(port+"/authAdminGeneral", {
               method: "POST",
               body: JSON.stringify(data),
-              headers: { "Content-Type": "application/json",
-              "x-access-token":token },
+              headers: { "Content-Type": "application/json" },
             });
             return  data_user=await res.json();
           } catch(error){
